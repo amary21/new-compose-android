@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,37 +25,27 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CreateView(){
-    ColumnView()
-}
-
-@Composable
-fun ColumnView() {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Green),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(text = "Hello")
-        RowView()
-        Text(text = "Hello")
-    }
-}
-
-@Composable
-fun RowView() {
-    Row(
-        modifier = Modifier
-            .width(300.dp)
+            .background(Color.Green)
             .fillMaxHeight(0.5f)
-            .background(Color.Blue),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxWidth()
+            .border(5.dp, Color.Magenta)
+            .padding(5.dp)
+            .border(5.dp, Color.Blue)
+            .padding(5.dp)
+            .border(10.dp, Color.Red)
+            .padding(10.dp)
     ) {
-        Text(text = "Hello")
+        Text(text = "Hello", modifier = Modifier
+            .border(5.dp, Color.Yellow)
+            .padding(5.dp)
+            .offset(20.dp, 20.dp)
+            .border(10.dp, Color.Black)
+            .padding(10.dp)
+        )
+        Spacer(modifier = Modifier.height(50.dp))
         Text(text = "World")
-        Text(text = "Hello")
     }
 }
 
