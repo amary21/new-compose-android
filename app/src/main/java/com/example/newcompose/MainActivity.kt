@@ -4,15 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,27 +45,53 @@ class MainActivity : ComponentActivity() {
         setContent {
             BottomNavWithBadgesTheme() {
                 val navController = rememberNavController()
+                val countFavorite by viewModel.countFavorite.observeAsState(initial = 0)
                 Scaffold(
+                    topBar ={
+                        CardView(
+                            modifier = Modifier
+                                .padding(
+                                    start = 10.dp,
+                                    end = 10.dp,
+                                    top = 8.dp
+                                )
+                                .fillMaxWidth(),
+                        ) {
+                            TopAppBar(
+                                title = { Text(text = "Movie App", textAlign = TextAlign.Center) },
+                            )
+                        }
+                    },
                     bottomBar = {
-                        BottomNavigationBar(
-                            items = listOf(
-                                BottomNavItem(
-                                    name = "Home",
-                                    route = "home",
-                                    icon = Icons.Default.Home
+                        CardView(
+                            modifier = Modifier
+                                .padding(
+                                    start = 10.dp,
+                                    end = 10.dp,
+                                    bottom = 8.dp
+                                )
+                                .fillMaxWidth()
+                        ) {
+                            BottomNavigationBar(
+                                items = listOf(
+                                    BottomNavItem(
+                                        name = "Home",
+                                        route = "home",
+                                        icon = Icons.Default.Home
+                                    ),
+                                    BottomNavItem(
+                                        name = "Favorite",
+                                        route = "favorite",
+                                        icon = Icons.Default.Favorite,
+                                        badgeCount = countFavorite
+                                    ),
                                 ),
-                                BottomNavItem(
-                                    name = "Favorite",
-                                    route = "favorite",
-                                    icon = Icons.Default.Favorite,
-                                    badgeCount = 10
-                                ),
-                            ),
-                            navController = navController,
-                            onItemClick = {
-                                navController.navigate(it.route)
-                            }
-                        )
+                                navController = navController,
+                                onItemClick = {
+                                    navController.navigate(it.route)
+                                }
+                            )
+                        }
                     }
                 ) {
                     Box(modifier = Modifier.padding(it)){
@@ -77,6 +103,20 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun CardView(
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+){
+    Card(
+        modifier = modifier,
+        elevation =  8.dp,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(content = content)
     }
 }
 

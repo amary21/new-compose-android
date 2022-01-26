@@ -15,6 +15,9 @@ interface MovieDao {
     @Query("SELECT EXISTS (SELECT * FROM movie WHERE id=:id AND is_favorite=1)")
     fun isFavorite(id: Int): Flow<Int>
 
+    @Query("SELECT COUNT(is_favorite) FROM movie WHERE is_favorite=1")
+    fun countFavorite(): Flow<Int>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<MovieEntity>)
 

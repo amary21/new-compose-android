@@ -17,6 +17,8 @@ class MainViewModel(
 
     val favorites = iRepository.getAllFavoriteMovie().asLiveData()
 
+    val countFavorite = iRepository.countFavorite().asLiveData()
+
     fun movie(id: Int) = iRepository.getDetailMovie(id).asLiveData()
 
     fun isFavorite(id: Int) = iRepository.isFavorite(id).asLiveData()

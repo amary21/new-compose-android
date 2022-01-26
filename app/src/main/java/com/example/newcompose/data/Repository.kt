@@ -29,8 +29,7 @@ class Repository(
                     it.mapToModel()
                 }
 
-            override fun shouldFetch(data: List<Movie>?) =
-                ConnectionCheck.isNetworkAvailable(context)
+            override fun shouldFetch(data: List<Movie>?) = data?.isEmpty() == true
 
             override suspend fun createCall() =
                 remoteDataSource.getAllMovies()
@@ -74,6 +73,10 @@ class Repository(
 
     override fun isFavorite(id: Int): Flow<Int> {
         return localDataSource.isFavorite(id)
+    }
+
+    override fun countFavorite(): Flow<Int> {
+        return localDataSource.countFavorite()
     }
 
 

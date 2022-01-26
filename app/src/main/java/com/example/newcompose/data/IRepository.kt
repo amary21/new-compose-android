@@ -11,4 +11,5 @@ interface IRepository {
     fun getDetailMovie(id: Int) : Flow<Resource<Detail>>
     suspend fun setFavorite(movie: Movie, state: Boolean)
     fun isFavorite(id: Int) : Flow<Int>
+    fun countFavorite(): Flow<Int>
 }

@@ -9,6 +9,8 @@ class LocalDataSource(private val movieDao: MovieDao) {
 
     fun getFavoriteMovie() = movieDao.getFavoriteMovie()
 
+    fun countFavorite() = movieDao.countFavorite()
+
     fun isFavorite(id: Int) = movieDao.isFavorite(id)
 
     suspend fun insertMovie(movies: List<MovieEntity>) = movieDao.insertMovies(movies)
