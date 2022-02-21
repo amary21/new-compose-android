@@ -8,12 +8,11 @@ data class Movie(
     val voteAverage: Double,
     val title: String,
     val posterPath: String,
-    val backdropPath: String,
     val releaseDate: String,
     val isFavorite: Boolean
 ) : Serializable
 
 
 fun Movie.mapToEntity() : MovieEntity = MovieEntity(
-    id, voteAverage, title, posterPath, backdropPath, releaseDate
+    id, voteAverage, title, posterPath,  releaseDate
 )

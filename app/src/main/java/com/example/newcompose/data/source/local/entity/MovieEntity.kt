@@ -15,13 +15,12 @@ data class MovieEntity(
     @ColumnInfo(name = "vote_average") var voteAverage: Double,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "poster_path") var posterPath: String,
-    @ColumnInfo(name = "backdrop_path") var backdropPath: String,
     @ColumnInfo(name = "release_date") var releaseDate: String,
     @ColumnInfo(name = "is_favorite") var isFavorite: Boolean = false
 )
 
 fun MovieEntity.mapToModel() : Movie = Movie(
-    id, voteAverage, title, posterPath, backdropPath, releaseDate, isFavorite
+    id, voteAverage, title, posterPath,  releaseDate, isFavorite
 )
 
 fun List<MovieEntity>.mapToModel(): List<Movie> = map { it.mapToModel() }

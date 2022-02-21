@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -15,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import com.example.newcompose.data.model.Detail
+import com.example.newcompose.ui.theme.MainTheme
 import com.example.newcompose.utils.Constant
 import com.example.newcompose.utils.Resource
 import com.skydoves.landscapist.glide.GlideImage
@@ -27,17 +30,24 @@ class DetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Scaffold(
-                topBar = { TopBar(intent.getStringExtra("title") ?: "") }
-            ) {
-                InitContent(viewModel.movie(intent.getIntExtra("id_movie", 0)))
+            MainTheme() {
+                Scaffold(
+                    topBar = {
+                        TopBar(
+                            title = intent.getStringExtra("title") ?: "",
+                            onBackClick = { finish() }
+                        )
+                    }
+                ) {
+                    InitContent(viewModel.movie(intent.getIntExtra("id_movie", 0)))
+                }
             }
         }
     }
 }
 
 @Composable
-fun TopBar(title: String) {
+fun TopBar(title: String, onBackClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(10.dp)
@@ -47,6 +57,11 @@ fun TopBar(title: String) {
     ) {
         TopAppBar(
             title = { Text(title) },
+            navigationIcon = {
+                IconButton(onClick = { onBackClick() }) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                }
+            },
         )
     }
 }

@@ -15,8 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -28,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.newcompose.data.model.BottomNavItem
 import com.example.newcompose.ui.FavoriteScreen
 import com.example.newcompose.ui.HomeScreen
-import com.example.newcompose.ui.theme.BottomNavWithBadgesTheme
+import com.example.newcompose.ui.theme.MainTheme
 import com.example.newcompose.ui.theme.Purple200
 import com.example.newcompose.ui.theme.Purple700
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -43,64 +43,81 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BottomNavWithBadgesTheme() {
-                val navController = rememberNavController()
-                val countFavorite by viewModel.countFavorite.observeAsState(initial = 0)
-                Scaffold(
-                    topBar ={
-                        CardView(
-                            modifier = Modifier
-                                .padding(
-                                    start = 10.dp,
-                                    end = 10.dp,
-                                    top = 8.dp
-                                )
-                                .fillMaxWidth(),
-                        ) {
-                            TopAppBar(
-                                title = { Text(text = "Movie App", textAlign = TextAlign.Center) },
-                            )
-                        }
-                    },
-                    bottomBar = {
-                        CardView(
-                            modifier = Modifier
-                                .padding(
-                                    start = 10.dp,
-                                    end = 10.dp,
-                                    bottom = 8.dp
-                                )
-                                .fillMaxWidth()
-                        ) {
-                            BottomNavigationBar(
-                                items = listOf(
-                                    BottomNavItem(
-                                        name = "Home",
-                                        route = "home",
-                                        icon = Icons.Default.Home
-                                    ),
-                                    BottomNavItem(
-                                        name = "Favorite",
-                                        route = "favorite",
-                                        icon = Icons.Default.Favorite,
-                                        badgeCount = countFavorite
-                                    ),
-                                ),
-                                navController = navController,
-                                onItemClick = {
-                                    navController.navigate(it.route)
-                                }
-                            )
-                        }
-                    }
-                ) {
-                    Box(modifier = Modifier.padding(it)){
-                        Navigation(
-                            navController = navController,
-                            viewModel = viewModel
+            InitContentMain(viewModel)
+        }
+    }
+}
+
+@DelicateCoroutinesApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+@Preview()
+@Composable
+fun MyScreenPreview() {
+    InitContentMain(viewModel = MainViewModel())
+}
+
+@DelicateCoroutinesApi
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@Composable
+fun InitContentMain(viewModel: MainViewModel = MainViewModel()) {
+    MainTheme() {
+        val navController = rememberNavController()
+        val countFavorite by viewModel.countFavorite.observeAsState(initial = 0)
+        Scaffold(
+            topBar ={
+                CardView(
+                    modifier = Modifier
+                        .padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 8.dp
                         )
-                    }
+                        .fillMaxWidth(),
+                ) {
+                    TopAppBar(
+                        title = { Text(text = "Movie App", textAlign = TextAlign.Center) },
+                    )
                 }
+            },
+            bottomBar = {
+                CardView(
+                    modifier = Modifier
+                        .padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            bottom = 8.dp
+                        )
+                        .fillMaxWidth()
+                ) {
+                    BottomNavigationBar(
+                        items = listOf(
+                            BottomNavItem(
+                                name = "Home",
+                                route = "home",
+                                icon = Icons.Default.Home
+                            ),
+                            BottomNavItem(
+                                name = "Favorite",
+                                route = "favorite",
+                                icon = Icons.Default.Favorite,
+                                badgeCount = countFavorite
+                            ),
+                        ),
+                        navController = navController,
+                        onItemClick = {
+                            navController.navigate(it.route)
+                        }
+                    )
+                }
+            }
+        ) {
+            Box(modifier = Modifier.padding(it)){
+                Navigation(
+                    navController = navController,
+                    viewModel = viewModel
+                )
             }
         }
     }
@@ -131,7 +148,6 @@ fun BottomNavigationBar(
     val backStackEntry = navController.currentBackStackEntryAsState()
     BottomNavigation(
         modifier = modifier,
-        backgroundColor = Color.White,
         elevation = 5.dp
     ) {
         items.forEach { item ->

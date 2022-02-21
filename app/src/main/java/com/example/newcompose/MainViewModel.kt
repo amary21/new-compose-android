@@ -5,13 +5,14 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.newcompose.data.IRepository
 import com.example.newcompose.data.model.Movie
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class MainViewModel(
-    private val iRepository: IRepository,
-    private val coroutineDispatcher: CoroutineDispatcher
-) : ViewModel() {
+class MainViewModel : ViewModel() {
+    private val iRepository = object : KoinComponent {val iRepository: IRepository by inject()}.iRepository
+    private val coroutineDispatcher = Dispatchers.IO
 
     val movies = iRepository.getAllMovie().asLiveData()
 

@@ -8,7 +8,6 @@ data class ResultResponse(
     @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("title") val title: String,
     @SerializedName("poster_path") val posterPath: String,
-    @SerializedName("backdrop_path") val backdropPath: String,
     @SerializedName("release_date") val releaseDate: String
 )
 
@@ -18,7 +17,6 @@ fun ResultResponse.mapToEntity() : MovieEntity = MovieEntity(
     voteAverage,
     title,
     posterPath,
-    backdropPath,
     releaseDate
 )
 

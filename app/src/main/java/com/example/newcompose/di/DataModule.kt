@@ -57,6 +57,5 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    factory { Dispatchers.IO }
-    viewModel { MainViewModel(get(), get()) }
+    viewModel { MainViewModel() }
 }
